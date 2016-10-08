@@ -915,7 +915,7 @@
       <RmRegistryBranch NAME="EffectPlacementRepository" API="" XML_VERSION="RenderMonkey 1.71">
        <RmRegistryBranch NAME="Effect Workspace.Effect Group 1.Effect1" API="" XML_VERSION="RenderMonkey 1.71">
         <RmIntegerVariable NAME="X" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="418" MIN="-10" MAX="10" CLAMP="FALSE"/>
-        <RmIntegerVariable NAME="Y" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="-7" MIN="-10" MAX="10" CLAMP="FALSE"/>
+        <RmIntegerVariable NAME="Y" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="12" MIN="-10" MAX="10" CLAMP="FALSE"/>
         <RmIntegerVariable NAME="Width" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="350" MIN="-10" MAX="10" CLAMP="FALSE"/>
         <RmIntegerVariable NAME="Height" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="350" MIN="-10" MAX="10" CLAMP="FALSE"/>
         <RmIntegerVariable NAME="ShowStatus" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="1" MIN="-10" MAX="10" CLAMP="FALSE"/>
@@ -1022,7 +1022,7 @@ Pass 0]]></RmTextDataBlock></RmStringVariable>
     </RmRegistryBranch>
     <RmRegistryBranch NAME="WORKSPACE" API="" XML_VERSION="RenderMonkey 1.71">
      <RmStringVariable NAME="LAST_SAVE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-8/10/2016 13:32:30]]></RmTextDataBlock></RmStringVariable>
+8/10/2016 14:0:21]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey Version 1.82 (build 322)]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="XML_VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
@@ -1035,11 +1035,11 @@ C:\Users\Meggie Sanchez\Documents\GitHub\GraficasII\ProyectoShaders\]]></RmTextD
   <RmEffectGroup NAME="Effect Group 1" API="">
    <RmOpenGLEffect NAME="Effect1" API="OpenGL" ACTIVE_CAMERA="">
     <RmFloatVariable NAME="iL" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE="1.215000" MIN="0.000000" MAX="1.500000" CLAMP="TRUE"/>
-    <RmFloatVariable NAME="iA" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE="0.000000" MIN="0.000000" MAX="1.000000" CLAMP="TRUE"/>
+    <RmFloatVariable NAME="iA" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE="0.390000" MIN="0.000000" MAX="1.000000" CLAMP="TRUE"/>
     <RmFloatVariable NAME="iSh" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE="0.000000" MIN="0.000000" MAX="1.000000" CLAMP="TRUE"/>
     <RmFloatVariable NAME="shine" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE="30.000000" MIN="0.000000" MAX="30.000000" CLAMP="TRUE"/>
-    <RmFloatVariable NAME="iS" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE="0.000000" MIN="0.000000" MAX="1.000000" CLAMP="TRUE"/>
-    <RmFloatVariable NAME="iD" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE="0.540000" MIN="0.000000" MAX="1.000000" CLAMP="TRUE"/>
+    <RmFloatVariable NAME="iS" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE="1.000000" MIN="0.000000" MAX="1.000000" CLAMP="TRUE"/>
+    <RmFloatVariable NAME="iD" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE="0.000000" MIN="0.000000" MAX="1.000000" CLAMP="TRUE"/>
     <RmFloatVariable NAME="snow" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE="0.000000" MIN="0.000000" MAX="1.000000" CLAMP="TRUE"/>
     <RmFloatVariable NAME="moho" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE="0.940000" MIN="0.000000" MAX="1.000000" CLAMP="TRUE"/>
     <RmVectorVariable NAME="lightPosition" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="1.000000" VALUE_1="1.000000" VALUE_2="1.000000" VALUE_3="0.000000" MIN="-10.000000" MAX="10.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
@@ -1182,11 +1182,11 @@ void main(void)
    
    r = reflect(-normalize(vLp),N);
    dotRC = pow (max(dot(normalize(r),normalize(vC)),0.0),shine);
-   cSpec = mix(txColor, txSpecular, iS)*cS*dotRC;
-   
+   cSpec = mix(txColor, txSpecular, mix(0, txSpecular.x, iS))*cS*dotRC;
+
    //Formula final
    colorFinal = 
-   iA*cA*txColor + 
+   iA*cA*colorDifusoSnow + 
    iL*cL*(colorDifusoSnow*iD*dotLN + cSpec);
    
    gl_FragColor = colorFinal;
